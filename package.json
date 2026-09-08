@@ -6,12 +6,13 @@
   "scripts": {
     "dev": "concurrently -k -n storybook,demo -c blue,green \"storybook dev -p 6006\" \"vite build --watch --outDir .storybook/public/demo --base /demo/\"",
     "dev:demo": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && pnpm build-storybook",
     "build:demo": "vite build --outDir .storybook/public/demo --base /demo/",
-    "preview": "vite preview",
+    "build-storybook": "pnpm build:demo && storybook build",
+    "preview": "pnpm build && http-server storybook-static -p 4173 -c-1",
     "typecheck": "tsc -b --noEmit",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook-only": "storybook build"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
@@ -31,6 +32,7 @@
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^10.0.5",
+    "http-server": "^14.1.1",
     "playwright": "^1.63.0",
     "storybook": "^8.6.18",
     "tailwindcss": "^4.1.0",

@@ -61,6 +61,18 @@ src/
   `prefers-reduced-motion` désactive tout sauf les fondus d'état.
 - **Performance** : bundle JS démo ~52 kB gzip + ~164 Ko de polices WOFF2.
 
+## Déploiement (Vercel)
+
+Le repo est prêt pour Vercel : `vercel.json` force la bonne configuration.
+
+- **buildCommand** : `pnpm build-storybook` — build la démo (`build:demo`) puis le Storybook
+- **outputDirectory** : `storybook-static` — **la racine du site = le Storybook**
+- La démo est servie à `/demo/index.html` (et `/demo/`), avec son bouton « Démo live » dans le topbar
+
+Aucune config manuelle dans le dashboard Vercel : il suffit d'importer
+le repo et `vercel.json` fait le reste. La racine du site affiche le
+Storybook en premier.
+
 ## Vérification
 
 ```bash
