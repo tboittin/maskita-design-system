@@ -27,6 +27,10 @@ pnpm build-storybook  # build du Storybook (storybook-static/)
 pnpm typecheck        # tsc -b strict
 ```
 
+Un bouton **« Démo live »** est épinglé en haut à droite du Storybook :
+il ouvre la démo (`/demo/index.html`) dans un nouvel onglet, en dev comme
+dans le build statique (lien relatif, fonctionne sous sous-chemin).
+
 ## Architecture
 
 ```
