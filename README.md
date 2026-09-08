@@ -17,9 +17,12 @@ Même métaphore que le « fil » du parcours (Déposer → Vérifier → Récup
 ## Commandes
 
 ```bash
-pnpm dev              # démo interactive sur http://localhost:5173
-pnpm storybook        # Storybook sur http://localhost:6006
+pnpm dev              # Storybook sur http://localhost:6006 (page de dev)
+                      # + la démo buildée sur http://localhost:6006/demo/index.html
+                      #   (rebuild automatique à chaque changement — watcher)
+pnpm dev:demo         # la démo seule avec HMR sur http://localhost:5173
 pnpm build            # build de la démo (dist/)
+pnpm build:demo       # build de la démo pour /demo (.storybook/public/demo)
 pnpm build-storybook  # build du Storybook (storybook-static/)
 pnpm typecheck        # tsc -b strict
 ```

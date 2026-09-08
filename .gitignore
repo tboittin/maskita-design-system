@@ -5,6 +5,7 @@ node_modules/
 # Builds
 dist/
 storybook-static/
+.storybook/public/
 
 # Tests et vérifications
 check-*.cjs
