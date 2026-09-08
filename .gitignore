@@ -1,0 +1,20 @@
+# Dépendances
+node_modules/
+.pnpm-store/
+
+# Builds
+dist/
+storybook-static/
+
+# Tests et vérifications
+check-*.cjs
+shots-*.png
+
+# Logs
+*.log
+
+# Système
+.DS_Store
+
+# Plans locaux
+.hermes/plans/
