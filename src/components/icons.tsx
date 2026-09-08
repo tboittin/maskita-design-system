@@ -24,6 +24,17 @@ function Base({ children, strokeWidth = 1.5, ...props }: IconProps & { children:
   )
 }
 
+/* --- La brochette (marque) — maskita signifie « brochette » en malgache.
+   Un fil qui enfile des morceaux de données, du plus gros au plus fin. --- */
+export const BrochetteIcon = (props: IconProps) => (
+  <Base {...props}>
+    <path d="M2.5 21.5 21.5 2.5" />
+    <circle cx="6.68" cy="17.32" r="3.1" />
+    <circle cx="12.38" cy="11.62" r="2.5" />
+    <circle cx="18.08" cy="5.92" r="1.9" />
+  </Base>
+)
+
 /* --- Geste 1 : le voile (anonymiser / masquer) --- */
 export const VoileIcon = (props: IconProps) => (
   <Base {...props}>

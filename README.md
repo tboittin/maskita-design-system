@@ -4,6 +4,10 @@ Design system du projet Maskita (pseudonymisation 100 % navigateur), généré
 depuis [DESIGNSYSTEM.md](./DESIGNSYSTEM.md) : tokens, composants, démo et
 Storybook.
 
+**Le logo : la brochette.** *Maskita* signifie « brochette » en malgache —
+un fil qui enfile trois morceaux de données, du plus gros au plus fin.
+Même métaphore que le « fil » du parcours (Déposer → Vérifier → Récupérer).
+
 ## Stack
 
 - React 18 + TypeScript strict

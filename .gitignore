@@ -9,6 +9,7 @@ storybook-static/
 # Tests et vérifications
 check-*.cjs
 shots-*.png
+lab-*
 
 # Logs
 *.log

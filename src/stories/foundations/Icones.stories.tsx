@@ -11,6 +11,7 @@ import {
   InfoIcon,
   FichierIcon,
   FilIcon,
+  BrochetteIcon,
 } from '../../components/icons'
 
 const meta: Meta = {
@@ -31,6 +32,7 @@ const Ligne = ({ nom, enfant }: { nom: string; enfant: React.ReactNode }) => (
 export const Jeu: Story = {
   render: () => (
     <div className="flex max-w-3xl flex-wrap gap-4">
+      <Ligne nom="BrochetteIcon — marque" enfant={<BrochetteIcon className="size-6" />} />
       <Ligne nom="VoileIcon" enfant={<VoileIcon className="size-6" />} />
       <Ligne nom="CleIcon" enfant={<CleIcon className="size-6" />} />
       <Ligne nom="TelechargerIcon" enfant={<TelechargerIcon className="size-6" />} />

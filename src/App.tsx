@@ -11,7 +11,7 @@ import {
   SurbrillanceTag,
   TexteApercu,
 } from './components/ui'
-import { BouclierIcon, CleIcon, TelechargerIcon, VoileIcon } from './components/icons'
+import { BouclierIcon, BrochetteIcon, CleIcon, TelechargerIcon } from './components/icons'
 import type { LignePseudo } from './components/ui'
 
 const jalons = [
@@ -77,7 +77,7 @@ export default function App() {
       <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <span className="text-action-600">
-            <VoileIcon className="size-7" />
+            <BrochetteIcon className="size-7" />
           </span>
           <div>
             <h1 className="text-xl font-semibold text-brume-900">Maskita</h1>
