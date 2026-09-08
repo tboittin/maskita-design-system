@@ -40,13 +40,15 @@ src/
 ## Contraintes respectées (DESIGNSYSTEM.md)
 
 - **Zéro police distante, zéro CDN, zéro tracker** (`connect-src 'none'`) :
-  polices système avec fallback serif/mono — prêtes à être self-hostées.
+  polices **self-hosted** via `@fontsource` (WOFF2 latin embarqués dans le
+  bundle — Inter 400/500/600, Source Serif 4 400/600, JetBrains Mono 400/500 —
+  soit ~164 Ko servis, chargement lazy par graisse utilisée).
 - **La couleur informe, ne décore pas** : tout est en brume, seuls les états
   (tags, statuts), l'action primaire et les erreurs portent une teinte.
 - **Accessibilité** : focus visible partout, `aria-label` sur les icônes,
   statut jamais porté par la couleur seule (pastille + libellé),
   `prefers-reduced-motion` désactive tout sauf les fondus d'état.
-- **Performance** : bundle démo ~52 kB gzip.
+- **Performance** : bundle JS démo ~52 kB gzip + ~164 Ko de polices WOFF2.
 
 ## Vérification
 
