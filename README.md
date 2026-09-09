@@ -21,15 +21,38 @@ npm install @khaleeno/maskita-design-system
 ```
 
 ```tsx
-import { Bouton, Panneau, PastilleStatut } from '@khaleeno/maskita-design-system'
+import { Bouton, Panneau, PastilleStatut, FileDropZone } from '@khaleeno/maskita-design-system'
 import '@khaleeno/maskita-design-system/style.css' // style.css toujours importé
 
 <Bouton variante="primaire">Valider</Bouton>
+
+{/* FileDropZone : le File brut est transmis via onFichierFile (pipeline) */}
+<FileDropZone
+  accept=".docx,.txt,.md"
+  libelle=".key.json"
+  chargement={estEnCours}
+  erreur={erreur}
+  fichierCourant={nomFichier}
+  onFichierFile={(fichier) => pipeline(fichier)}
+  libelleDeposer="Déposez votre rapport ici"   // localisable
+/>
 ```
 
 React 18 est en `peerDependencies` : le package n'embarque pas son propre
 React. Les `@fontsource/*` restent des dépendances (mais les polices sont
 déjà embarquées dans style.css).
+
+### Composants interactifs (v1.1)
+
+- **FileDropZone** : `onFichierFile(fichier: File)` pour le pipeline,
+  `accept`, `libelle`, états `chargement`/`erreur`/`fichierCourant`,
+  libellés localisables (`libelleDeposer`, `sousTitre`, `libelleChangement`,
+  `ariaLabel`).
+- **PseudoTableau / LigneTag** : renommage inline (double-clic, `onRenommer`),
+  clic valeur (`onValeurClick`), retrait (`onRetirerValeur`), conflit « voir »
+  (`onConflitVoir`), drag & drop (`onDeplacerValeur`, `onReordonnerValeurs`),
+  `maxValeursAffichees`, libellés localisables (`libelleTitre`,
+  `libelleAjouter`, `libelleAucun`, `libelleVoir`).
 
 ### Publication
 
@@ -39,6 +62,8 @@ npm publish --access public
 ```
 
 Publié le 9 sept. 2026 : `@khaleeno/maskita-design-system@1.0.0`.
+v1.1.0 : enrichissement FileDropZone (File brut, états, i18n) +
+PseudoTableau/LigneTag interactifs (renommage, valeurs, drag & drop).
 `prepack` et `prepublishOnly` déclenchent automatiquement `pnpm build:lib`.
 
 ### Test local (vérifié le 2026-09-08)
