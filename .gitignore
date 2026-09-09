@@ -10,6 +10,7 @@ storybook-static/
 # Test consommateur (package npm)
 consumer-test/
 maskita-design-system-*.tgz
+khaleeno-maskita-design-system-*.tgz
 
 # Tests et vérifications
 check-*.cjs
@@ -22,5 +23,11 @@ lab-*
 # Système
 .DS_Store
 
+# Config locale (npx/npm)
+.npmrc
+
+# Artefacts TypeScript (tsc -b)
+*.tsbuildinfo
+
 # Plans locaux
-.hermes/plans/*.tsbuildinfo
+.hermes/plans/

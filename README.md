@@ -1,12 +1,12 @@
 ## Package npm
 
-Le design system est publiable comme package npm (`maskita-design-system`).
+Le design system est publié sur npm : **`@khaleeno/maskita-design-system`**.
 
 ### Build du package
 
 ```bash
 pnpm build:lib   # tsup (ESM+CJS+types) puis vite (dist/style.css self-hosted)
-npm pack         # génère maskita-design-system-1.0.0.tgz
+npm pack         # génère khaleeno-maskita-design-system-1.0.0.tgz
 ```
 
 `dist/` contient :
@@ -17,12 +17,12 @@ npm pack         # génère maskita-design-system-1.0.0.tgz
 ### Consommation
 
 ```bash
-npm install maskita-design-system
+npm install @khaleeno/maskita-design-system
 ```
 
 ```tsx
-import { Bouton, Panneau, PastilleStatut } from 'maskita-design-system'
-import 'maskita-design-system/style.css' // style.css toujours importé
+import { Bouton, Panneau, PastilleStatut } from '@khaleeno/maskita-design-system'
+import '@khaleeno/maskita-design-system/style.css' // style.css toujours importé
 
 <Bouton variante="primaire">Valider</Bouton>
 ```
@@ -38,8 +38,8 @@ npm login
 npm publish --access public
 ```
 
-Le nom `maskita-design-system` est libre sur npm (vérifié). `prepack` et
-`prepublishOnly` déclenchent automatiquement `pnpm build:lib`.
+Publié le 9 sept. 2026 : `@khaleeno/maskita-design-system@1.0.0`.
+`prepack` et `prepublishOnly` déclenchent automatiquement `pnpm build:lib`.
 
 ### Test local (vérifié le 2026-09-08)
 

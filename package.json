@@ -1,5 +1,5 @@
 {
-  "name": "maskita-design-system",
+  "name": "@khaleeno/maskita-design-system",
   "version": "1.0.0",
   "description": "Design system Maskita « Le Voile léger » — composants React, tokens Tailwind v4, Storybook",
   "type": "module",
