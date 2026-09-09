@@ -31,6 +31,15 @@ export interface LigneTagProps {
   maxValeursAffichees?: number
   /** Libellé du lien « voir » d'un conflit (localisable). */
   libelleVoir?: string
+  /** Ajouter une valeur au tag (bouton ➕ + input inline). */
+  onAjouterValeur?: (valeur: string) => void
+  /** Vider le tag (demande de suppression). */
+  onViderTag?: () => void
+  libelleAjouterValeur?: string
+  libelleRetirerValeur?: (valeur: string) => string
+  placeholderNouvelleValeur?: string
+  libelleViderTag?: string
+  libelleValeursVides?: string
 
   /** Interne : marqueur de drag posé par PseudoTableau. */
   onMarquerDrag?: (valeur: string, index: number) => void
@@ -60,15 +69,30 @@ export function LigneTag({
   dragOver,
   setDragOver,
   libelleVoir = 'voir',
+  onAjouterValeur,
+  onViderTag,
+  libelleAjouterValeur = 'Ajouter une valeur',
+  libelleRetirerValeur = (v) => `Retirer ${v}`,
+  placeholderNouvelleValeur = 'Nouvelle valeur…',
+  libelleViderTag = 'Supprimer',
+  libelleValeursVides = 'vide',
 }: LigneTagProps) {
   const [edition, setEdition] = useState(false)
   const [nouveauNom, setNouveauNom] = useState(ligne.tag)
+  const [ajoutValeur, setAjoutValeur] = useState(false)
+  const [nouvelleValeur, setNouvelleValeur] = useState('')
 
   const confirmerRenommage = () => {
     if (edition && nouveauNom.trim() && nouveauNom.trim() !== ligne.tag) {
       onRenommer?.(nouveauNom.trim())
     }
     setEdition(false)
+  }
+
+  const confirmerAjoutValeur = () => {
+    if (nouvelleValeur.trim()) onAjouterValeur?.(nouvelleValeur.trim())
+    setNouvelleValeur('')
+    setAjoutValeur(false)
   }
 
   return (
@@ -131,6 +155,9 @@ export function LigneTag({
         )}
       </div>
       <div className="mt-1.5 flex flex-wrap items-center gap-1.5 pl-[38px]">
+        {ligne.valeurs.length === 0 && (
+          <span className="text-[11px] italic text-brume-400">{libelleValeursVides}</span>
+        )}
         {ligne.valeurs.slice(0, maxValeursAffichees).map((v, idx) => (
           <span
             key={v}
@@ -159,7 +186,7 @@ export function LigneTag({
             {onRetirerValeur && (
               <button
                 type="button"
-                aria-label={`Retirer ${v}`}
+                aria-label={libelleRetirerValeur(v)}
                 onClick={(e) => {
                   e.stopPropagation()
                   onRetirerValeur(v)
@@ -173,6 +200,51 @@ export function LigneTag({
         ))}
         {ligne.valeurs.length > maxValeursAffichees && (
           <span className="text-[11px] text-brume-500">+{ligne.valeurs.length - maxValeursAffichees}</span>
+        )}
+        {onAjouterValeur && !ajoutValeur && (
+          <button
+            type="button"
+            aria-label={libelleAjouterValeur}
+            onClick={(e) => {
+              e.stopPropagation()
+              setAjoutValeur(true)
+            }}
+            className="text-[11px] font-medium text-action-600 hover:text-action-500"
+          >
+            ➕
+          </button>
+        )}
+        {onAjouterValeur && ajoutValeur && (
+          <span className="inline-flex items-center gap-1">
+            <input
+              value={nouvelleValeur}
+              onChange={(e) => setNouvelleValeur(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') confirmerAjoutValeur()
+                if (e.key === 'Escape') {
+                  setAjoutValeur(false)
+                  setNouvelleValeur('')
+                }
+              }}
+              onBlur={confirmerAjoutValeur}
+              placeholder={placeholderNouvelleValeur}
+              autoFocus
+              className="w-32 rounded-md border border-brume-200 px-2 py-1 text-[11px] focus:outline-2 focus:outline-offset-1 focus:outline-action-500"
+            />
+          </span>
+        )}
+        {onViderTag && (
+          <button
+            type="button"
+            aria-label={libelleViderTag}
+            onClick={(e) => {
+              e.stopPropagation()
+              onViderTag()
+            }}
+            className="shrink-0 text-brume-400 hover:text-signal-erreur"
+          >
+            🗑
+          </button>
         )}
       </div>
       {ligne.conflitMessage && (
@@ -196,7 +268,7 @@ export function LigneTag({
   )
 }
 
-interface PseudoTableauProps {
+export interface PseudoTableauProps {
   lignes: LignePseudo[]
   activeTag: string
   onSelect: (tag: string) => void
@@ -212,6 +284,13 @@ interface PseudoTableauProps {
   libelleAjouter?: string
   libelleAucun?: string
   libelleVoir?: string
+  onAjouterValeur?: (tag: string, valeur: string) => void
+  onViderTag?: (tag: string) => void
+  libelleAjouterValeur?: string
+  libelleRetirerValeur?: (valeur: string) => string
+  placeholderNouvelleValeur?: string
+  libelleViderTag?: string
+  libelleValeursVides?: string
 }
 
 export function PseudoTableau({
@@ -230,6 +309,13 @@ export function PseudoTableau({
   libelleAjouter = '+ Ajouter un pseudo',
   libelleAucun = 'Aucun pseudonyme détecté.',
   libelleVoir = 'voir',
+  onAjouterValeur,
+  onViderTag,
+  libelleAjouterValeur,
+  libelleRetirerValeur,
+  placeholderNouvelleValeur,
+  libelleViderTag,
+  libelleValeursVides,
 }: PseudoTableauProps) {
   const dragValue = useRef<{ valeur: string; tagSource: string; index: number } | null>(null)
   const [dragOverTag, setDragOverTag] = useState<string | null>(null)
@@ -291,6 +377,13 @@ export function PseudoTableau({
               dragOver={dragOverTag === l.tag}
               setDragOver={setDragOverTag}
               libelleVoir={libelleVoir}
+              onAjouterValeur={onAjouterValeur ? (valeur) => onAjouterValeur(l.tag, valeur) : undefined}
+              onViderTag={onViderTag ? () => onViderTag(l.tag) : undefined}
+              libelleAjouterValeur={libelleAjouterValeur}
+              libelleRetirerValeur={libelleRetirerValeur}
+              placeholderNouvelleValeur={placeholderNouvelleValeur}
+              libelleViderTag={libelleViderTag}
+              libelleValeursVides={libelleValeursVides}
             />
           </div>
         ))}
