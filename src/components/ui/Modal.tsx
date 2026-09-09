@@ -17,13 +17,17 @@ interface ModalProps {
  */
 export function Modal({ ouvert, titre, onFermer, children, pied }: ModalProps) {
   const declencheurRef = useRef<HTMLElement | null>(null)
+  const dialogRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (ouvert) {
       declencheurRef.current = document.activeElement as HTMLElement | null
       const precedent = document.body.style.overflow
       document.body.style.overflow = 'hidden'
+      // Focus initial dans le dialog (Escape + trap fonctionnent dès l'ouverture)
+      const raf = requestAnimationFrame(() => dialogRef.current?.focus())
       return () => {
+        cancelAnimationFrame(raf)
         document.body.style.overflow = precedent
         declencheurRef.current?.focus?.()
       }
@@ -34,6 +38,26 @@ export function Modal({ ouvert, titre, onFermer, children, pied }: ModalProps) {
 
   const fermerAvecEscape = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') onFermer()
+  }
+
+  // Focus trap : Tab / Shift+Tab restent à l'intérieur du dialog
+  const gererTab = (e: React.KeyboardEvent) => {
+    if (e.key !== 'Tab' || !dialogRef.current) return
+    const focusables = Array.from(
+      dialogRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      ),
+    )
+    if (focusables.length === 0) return
+    const premier = focusables[0]
+    const dernier = focusables[focusables.length - 1]
+    if (e.shiftKey && document.activeElement === premier) {
+      e.preventDefault()
+      dernier.focus()
+    } else if (!e.shiftKey && document.activeElement === dernier) {
+      e.preventDefault()
+      premier.focus()
+    }
   }
 
   return createPortal(
@@ -48,12 +72,16 @@ export function Modal({ ouvert, titre, onFermer, children, pied }: ModalProps) {
         aria-hidden="true"
       />
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label={titre}
         tabIndex={-1}
+        onKeyDown={(e) => {
+          fermerAvecEscape(e)
+          gererTab(e)
+        }}
         className="relative w-full max-w-[480px] rounded-[20px] border border-brume-200/70 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)] animate-fade-down focus:outline-none"
-        autoFocus={false}
       >
         <header className="flex items-center justify-between px-7 pt-6">
           <h2 className="text-lg font-semibold text-brume-900">{titre}</h2>

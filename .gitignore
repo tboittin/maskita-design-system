@@ -7,6 +7,10 @@ dist/
 storybook-static/
 .storybook/public/
 
+# Test consommateur (package npm)
+consumer-test/
+maskita-design-system-*.tgz
+
 # Tests et vérifications
 check-*.cjs
 shots-*.png

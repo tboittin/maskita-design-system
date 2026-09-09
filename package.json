@@ -1,25 +1,45 @@
 {
   "name": "maskita-design-system",
-  "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "Design system Maskita « Le Voile léger » — composants React, tokens Tailwind v4, Storybook",
   "type": "module",
+  "license": "MIT",
+  "keywords": ["design-system", "maskita", "react", "tailwind", "pseudonymisation", "ui"],
+  "sideEffects": ["**/*.css"],
+  "files": ["dist"],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./style.css": "./dist/style.css"
+  },
   "scripts": {
     "dev": "concurrently -k -n storybook,demo -c blue,green \"storybook dev -p 6006\" \"vite build --watch --outDir .storybook/public/demo --base /demo/\"",
     "dev:demo": "vite",
     "build": "tsc -b && pnpm build-storybook",
+    "build:lib": "tsup src/index.ts --format cjs,esm --dts --tsconfig tsconfig.lib.json --clean && vite build --config vite.config.lib.ts && rm -f dist/maskita-design-system.js",
     "build:demo": "vite build --outDir .storybook/public/demo --base /demo/",
     "build-storybook": "pnpm build:demo && storybook build",
     "preview": "pnpm build && http-server storybook-static -p 4173 -c-1",
     "typecheck": "tsc -b --noEmit",
     "storybook": "storybook dev -p 6006",
-    "build-storybook-only": "storybook build"
+    "build-storybook-only": "storybook build",
+    "prepublishOnly": "pnpm build:lib",
+    "prepack": "pnpm build:lib"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
     "@fontsource/jetbrains-mono": "^5.3.0",
-    "@fontsource/source-serif-4": "^5.3.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@fontsource/source-serif-4": "^5.3.0"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^8.6.18",
@@ -34,8 +54,11 @@
     "concurrently": "^10.0.5",
     "http-server": "^14.1.1",
     "playwright": "^1.63.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "storybook": "^8.6.18",
     "tailwindcss": "^4.1.0",
+    "tsup": "^8.5.1",
     "typescript": "~5.6.2",
     "vite": "^6.0.0"
   }
