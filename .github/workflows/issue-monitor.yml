@@ -11,8 +11,7 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
-      - name: Analyser l'issue et poster un plan
-        uses: actions/github-script@v7
+      - uses: actions/github-script@v7
         with:
           script: |
             const { issue, octokit } = context;
@@ -20,44 +19,59 @@ jobs:
             const body = issue.body || '';
             const number = issue.number;
 
-            let plan = `## Plan d'action pour #${number} — ${title}\n\n`;
-
-            // Détection par mots-clés
             const lcTitle = title.toLowerCase();
             const lcBody = body.toLowerCase();
 
+            let plan = '';
+
             if (lcTitle.includes('padding') || lcBody.includes('padding')) {
-              plan += `### Analyse\n`;
-              plan += `Le padding des boutons est insuffisant, ce qui les rend trop étroits.\n\n`;
-              plan += `### Actions\n`;
-              plan += `1. Modifier \`src/components/ui/Bouton.tsx\` — ajouter \`py-[10px]\` et augmenter \`px-*\`\n`;
-              plan += `2. Vérifier avec \`pnpm typecheck\`\n`;
-              plan += `3. Commiter et pusher sur une branche \`fix/us-b01-padding\`\n\n`;
-              plan += `### Composants concernés\n`;
-              plan += `- \`Bouton.tsx\`\n`;
+              plan = [
+                `## Plan d'action pour #${number} — ${title}`,
+                '',
+                '### Analyse',
+                'Le padding des boutons est insuffisant, ce qui les rend trop étroits.',
+                '',
+                '### Actions',
+                '1. Modifier `src/components/ui/Bouton.tsx` — ajouter `py-[10px]` et augmenter `px-*`',
+                '2. Vérifier avec `pnpm typecheck`',
+                '3. Commiter et pusher sur une branche `fix/us-b01-padding`',
+                '',
+                '### Composants concernés',
+                '- `Bouton.tsx`',
+              ].join('\n');
             } else if (lcTitle.includes('font') || lcBody.includes('csp') || lcBody.includes('content security')) {
-              plan += `### Analyse\n`;
-              plan += `Les polices embarquées en base64 dans \`style.css\` sont bloquées par la CSP\n`;
-              plan += `(\`font-src 'self'\` sans \`data:\`).\n\n`;
-              plan += `### Actions\n`;
-              plan += `1. Ajouter \`data:\` à la directive \`font-src\` dans la CSP\n`;
-              plan += `2. Ou extraire les polices en fichiers WOFF2 servis statiquement\n`;
-              plan += `3. Vérifier avec \`pnpm typecheck\`\n`;
-              plan += `4. Commiter et pusher sur une branche \`fix/us-b02-font-csp\`\n\n`;
-              plan += `### Fichiers concernés\n`;
-              plan += `- Configuration CSP du serveur\n`;
-              plan += `- \`style.css\` (polices embarquées)\n`;
+              plan = [
+                `## Plan d'action pour #${number} — ${title}`,
+                '',
+                '### Analyse',
+                'Les polices embarquées en base64 dans `style.css` sont bloquées par la CSP',
+                '(`font-src \\'self\\'` sans `data:`).',
+                '',
+                '### Actions',
+                "1. Ajouter `data:` à la directive `font-src` dans la CSP",
+                '2. Ou extraire les polices en fichiers WOFF2 servis statiquement',
+                '3. Vérifier avec `pnpm typecheck`',
+                '4. Commiter et pusher sur une branche `fix/us-b02-font-csp`',
+                '',
+                '### Fichiers concernés',
+                '- Configuration CSP du serveur (Storybook, Vite, ou déploiement)',
+                '- `style.css` (polices embarquées)',
+              ].join('\n');
             } else {
-              plan += `### Analyse\n`;
-              plan += `Issue à analyser plus en détail.\n\n`;
-              plan += `### Actions à déterminer\n`;
-              plan += `1. Lire le code concerné\n`;
-              plan += `2. Comprendre le problème\n`;
-              plan += `3. Proposer une correction\n`;
+              plan = [
+                `## Plan d'action pour #${number} — ${title}`,
+                '',
+                '### Analyse',
+                'Issue à analyser plus en détail.',
+                '',
+                '### Actions à déterminer',
+                '1. Lire le code concerné',
+                '2. Comprendre le problème',
+                '3. Proposer une correction',
+              ].join('\n');
             }
 
-            plan += `\n---\n`;
-            plan += `🤖 *Plan d'action généré automatiquement par Hermes Agent*`;
+            plan += '\n\n---\n🤖 *Plan d\\'action généré automatiquement par Hermes Agent*';
 
             await octokit.rest.issues.createComment({
               owner: context.repo.owner,
