@@ -1,0 +1,22 @@
+{
+  "repo": "/home/thomas/maskita-design-system",
+  "base": "main",
+  "verifier": "pnpm typecheck",
+  "verifier_label": "typecheck",
+  "worktrees": [
+    {
+      "id": "nouveau-composant",
+      "branche": "feat/nouveau-composant",
+      "chemin": "../maskita-design-system-nouveau-composant",
+      "label": "Nouveau composant — implémentation",
+      "mission": "Implémente le composant X dans maskita-design-system.\n\nFichiers concernés :\n- src/components/ui/X.tsx\n- src/components/ui/index.ts (export)\n- src/index.ts (export)\n- (éventuellement) story X.stories.ts\n\nRègles :\n- Tailwind v4, React 18, TypeScript strict\n- Pas de remote git → commit local seulement\n- Vérification : pnpm typecheck puis pnpm build:lib\n- Commit après chaque étape fonctionnelle"
+    },
+    {
+      "id": "variante-composant",
+      "branche": "feat/variante-composant",
+      "chemin": "../maskita-design-system-variante",
+      "label": "Variante — extension composant existant",
+      "mission": "Ajoute une variante / prop au composant X.\n\nFichiers concernés :\n- src/components/ui/X.tsx\n- (éventuellement) types associés\n\nVérification : pnpm typecheck + pnpm build:lib"
+    }
+  ]
+}
