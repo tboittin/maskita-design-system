@@ -29,10 +29,37 @@ const variantes: Record<VarianteBouton, string> = {
   danger: 'bg-signal-erreur text-white hover:opacity-90',
 }
 
+/*
+ * Audit horizontal padding — incohérences constatées (non modifiées ici) :
+ *
+ * Composant        | px (horizontal)
+ * ─────────────────┼────────────────
+ * Bouton (sm)      | 16 → px-4   ✓ (nouveau)
+ * Bouton (md)      | 20 → px-5   ✓ (nouveau)
+ * Bouton (lg)      | 24 → px-6   ✓ (nouveau)
+ * Panneau (header) | 24 → px-6
+ * Panneau (body)   | hérité du parent (aucun direct)
+ * Modal (header)   | 28 → px-7
+ * Modal (content)  | 28 → px-7
+ * Modal (footer)   | 28 → px-7
+ * FileDropZone     | 32 → px-8
+ * MessageSucces    | 12 → px-3
+ * MessageErreur    | 16 → px-4
+ * MessageInfo      | 16 → px-4
+ * LigneTag         | 16 → px-4
+ * PseudoTableau hdr| 16 → px-4
+ * TexteApercu hdr  | 20 → px-5
+ * TexteApercu body | 40 → px-10
+ *
+ * Les valeurs sont assez disparates (12 à 40). Pas de système scalaire
+ * unique évident. Si harmonisation future : prévoir un token spacing
+ * (ex: --pad-xs / --pad-sm / --pad-md) plutôt que des px-* en dur.
+ */
+
 const tailles: Record<TailleBouton, string> = {
-  sm: 'h-8 px-3 text-[13px]',
-  md: 'h-10 px-4 text-sm',
-  lg: 'h-12 px-6 text-[15px]',
+  sm: 'px-4 py-[10px] text-[13px]',
+  md: 'px-5 py-[10px] text-sm',
+  lg: 'px-6 py-[10px] text-[15px]',
 }
 
 export const Bouton = forwardRef<HTMLButtonElement, BoutonProps>(function Bouton(
