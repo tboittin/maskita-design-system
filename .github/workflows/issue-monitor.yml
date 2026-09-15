@@ -14,10 +14,33 @@ jobs:
       - uses: actions/github-script@v7
         with:
           script: |
-            const { issue, octokit } = context;
+            const { issue, octokit, github } = context;
             const title = issue.title;
             const body = issue.body || '';
             const number = issue.number;
+            const author = issue.user.login;
+
+            // 🔒 Sécurité : ne répondre qu'aux issues créées par le proprio ou les collaborateurs
+            const owner = context.repo.owner;
+            const isOwner = author === owner;
+
+            let isCollaborator = false;
+            if (!isOwner) {
+              try {
+                await octokit.rest.repos.checkCollaborator({
+                  owner,
+                  repo: context.repo.repo,
+                  username: author,
+                });
+                isCollaborator = true;
+              } catch {
+                // pas collaborateur → on skip
+                console.log(`Issue #${number} by @${author} — skipped (not a collaborator)`);
+                return;
+              }
+            }
+
+            console.log(`Issue #${number} by @${author} — generating plan...`);
 
             const lcTitle = title.toLowerCase();
             const lcBody = body.toLowerCase();
@@ -71,7 +94,7 @@ jobs:
               ].join('\n');
             }
 
-            plan += '\n\n---\n🤖 *Plan d\\'action généré automatiquement par Hermes Agent*';
+            plan += '\n\n---\n🤖 *Plan d\'action généré automatiquement par Hermes Agent*';
 
             await octokit.rest.issues.createComment({
               owner: context.repo.owner,
