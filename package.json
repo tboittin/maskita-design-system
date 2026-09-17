@@ -30,7 +30,9 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook-only": "storybook build",
     "prepublishOnly": "pnpm build:lib",
-    "prepack": "pnpm build:lib"
+    "release:patch": "npm version patch --no-git-tag-version && git add package.json && git commit -m \"chore: bump v$(node -p \"require('./package.json').version\")\" && git tag v$(node -p \"require('./package.json').version\") && git push --follow-tags && npm publish",
+    "release:minor": "npm version minor --no-git-tag-version && git add package.json && git commit -m \"chore: bump v$(node -p \"require('./package.json').version\")\" && git tag v$(node -p \"require('./package.json').version\") && git push --follow-tags && npm publish",
+    "release:major": "npm version major --no-git-tag-version && git add package.json && git commit -m \"chore: bump v$(node -p \"require('./package.json').version\")\" && git tag v$(node -p \"require('./package.json').version\") && git push --follow-tags && npm publish"
   },
   "peerDependencies": {
     "react": "^18.0.0",
