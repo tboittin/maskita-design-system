@@ -1,12 +1,23 @@
 {
   "name": "@khaleeno/maskita-design-system",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Design system Maskita « Le Voile léger » — composants React, tokens Tailwind v4, Storybook",
   "type": "module",
   "license": "MIT",
-  "keywords": ["design-system", "maskita", "react", "tailwind", "pseudonymisation", "ui"],
-  "sideEffects": ["**/*.css"],
-  "files": ["dist"],
+  "keywords": [
+    "design-system",
+    "maskita",
+    "react",
+    "tailwind",
+    "pseudonymisation",
+    "ui"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
