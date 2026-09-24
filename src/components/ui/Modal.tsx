@@ -24,10 +24,14 @@ export function Modal({ ouvert, titre, onFermer, children, pied }: ModalProps) {
       declencheurRef.current = document.activeElement as HTMLElement | null
       const precedent = document.body.style.overflow
       document.body.style.overflow = 'hidden'
-      // Focus sur le premier élément focusable, sinon sur le dialog
+      // Focus sur le premier champ du contenu, sinon sur le dialog
       const raf = requestAnimationFrame(() => {
-        const focusable = dialogRef.current?.querySelector<HTMLElement>(
-          'input, textarea, select, button, [tabindex]:not([tabindex="-1"])',
+        const modal = dialogRef.current
+        if (!modal) return
+        const header = modal.querySelector('header')
+        const content = header ? header.nextElementSibling : modal
+        const focusable = (content || modal).querySelector<HTMLElement>(
+          'input:not([type="hidden"]), textarea, select, button, [tabindex]:not([tabindex="-1"])',
         )
         if (focusable) focusable.focus()
         else dialogRef.current?.focus()
