@@ -24,8 +24,14 @@ export function Modal({ ouvert, titre, onFermer, children, pied }: ModalProps) {
       declencheurRef.current = document.activeElement as HTMLElement | null
       const precedent = document.body.style.overflow
       document.body.style.overflow = 'hidden'
-      // Focus initial dans le dialog (Escape + trap fonctionnent dès l'ouverture)
-      const raf = requestAnimationFrame(() => dialogRef.current?.focus())
+      // Focus sur le premier élément focusable, sinon sur le dialog
+      const raf = requestAnimationFrame(() => {
+        const focusable = dialogRef.current?.querySelector<HTMLElement>(
+          'input, textarea, select, button, [tabindex]:not([tabindex="-1"])',
+        )
+        if (focusable) focusable.focus()
+        else dialogRef.current?.focus()
+      })
       return () => {
         cancelAnimationFrame(raf)
         document.body.style.overflow = precedent
