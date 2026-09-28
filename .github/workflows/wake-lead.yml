@@ -1,0 +1,53 @@
+name: Wake Lead — Hook GitHub → lead agent DS
+
+on:
+  issues:
+    types: [opened, edited, closed, labeled]
+  issue_comment:
+    types: [created]
+  pull_request:
+    types: [opened, closed, review_requested]
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  issues: read
+  pull-requests: read
+
+jobs:
+  wake:
+    runs-on: self-hosted
+    steps:
+      - name: Réveiller le lead agent
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_ACTION: ${{ github.event.action }}
+          ACTOR: ${{ github.actor }}
+          ISSUE_NUM: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          PR_NUM: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          LABEL_NAME: ${{ github.event.label.name }}
+          REVIEW_STATE: ${{ github.event.review.state }}
+        run: |
+          # Ignorer si le contenu contient /no-wakeup
+          if echo "$COMMENT_BODY" | grep -q '/no-wakeup'; then
+            echo "Contient /no-wakeup — ignore"
+            exit 0
+          fi
+          if echo "$ISSUE_BODY" | grep -q '/no-wakeup'; then
+            echo "Contient /no-wakeup — ignore"
+            exit 0
+          fi
+
+          MSG="🔔 GitHub DS: $EVENT_NAME/$EVENT_ACTION par @$ACTOR"
+          if [ -n "$ISSUE_NUM" ]; then MSG="$MSG — issue #$ISSUE_NUM ($ISSUE_TITLE)"; fi
+          if [ -n "$PR_NUM" ]; then MSG="$MSG — PR #$PR_NUM ($PR_TITLE)"; fi
+          if [ -n "$COMMENT_BODY" ]; then MSG="$MSG — comment: $(echo "$COMMENT_BODY" | head -c 150)"; fi
+          if [ -n "$LABEL_NAME" ]; then MSG="$MSG — label: $LABEL_NAME"; fi
+          if [ -n "$REVIEW_STATE" ]; then MSG="$MSG — review: $REVIEW_STATE"; fi
+
+          herdr agent prompt wC:p1 "$MSG" || echo "⚠️ Echec du reveil du lead DS — voir pane wC:p1"
