@@ -16,6 +16,8 @@ export { PseudoTableau, LigneTag } from './components/ui/PseudoTableau'
 export type { LignePseudo, LigneTagProps, PseudoTableauProps } from './components/ui/PseudoTableau'
 export { TexteApercu, SurbrillanceTag } from './components/ui/TexteApercu'
 export { MessageSucces, MessageErreur, MessageInfo } from './components/ui/Messages'
+export { Interrupteur } from './components/ui/Interrupteur'
+export type { InterrupteurProps } from './components/ui/Interrupteur'
 
 // Statuts
 export { statuts } from './lib/statuts'
