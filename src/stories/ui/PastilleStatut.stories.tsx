@@ -11,6 +11,7 @@ const meta: Meta<typeof PastilleStatut> = {
       options: ['nouveau', 'existant', 'conflit', 'vide', 'sain'],
     },
     avecLibelle: { control: 'boolean' },
+    accessibiliteRenforcee: { control: 'boolean' },
   },
   args: { statut: 'nouveau', avecLibelle: true },
 }
@@ -37,4 +38,28 @@ export const AvecLibelle: Story = {
 
 export const PastilleSeule: Story = {
   args: { statut: 'nouveau', avecLibelle: false },
+}
+
+export const EtatNouveau: Story = {
+  args: { statut: 'nouveau', avecLibelle: true },
+}
+
+export const EtatExistant: Story = {
+  args: { statut: 'existant', avecLibelle: true },
+}
+
+export const EtatConflit: Story = {
+  args: { statut: 'conflit', avecLibelle: true },
+}
+
+export const EtatVide: Story = {
+  args: { statut: 'vide', avecLibelle: true },
+}
+
+export const EtatSain: Story = {
+  args: { statut: 'sain', avecLibelle: true },
+}
+
+export const AccessibiliteRenforcee: Story = {
+  args: { statut: 'nouveau', avecLibelle: false, accessibiliteRenforcee: true },
 }

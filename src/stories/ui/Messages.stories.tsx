@@ -50,3 +50,19 @@ export const ErreurAvecAction: Story = {
     </div>
   ),
 }
+
+export const RolesARIAVisibles: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <MessageSucces onFermer={() => {}}>
+        Succès — role=&quot;status&quot; + aria-live=&quot;polite&quot;
+      </MessageSucces>
+      <MessageInfo>
+        Info — role=&quot;status&quot;
+      </MessageInfo>
+      <MessageErreur>
+        Erreur — role=&quot;alert&quot;
+      </MessageErreur>
+    </div>
+  ),
+}

@@ -7,6 +7,7 @@ const meta: Meta<typeof Jalons> = {
   parameters: { layout: 'centered' },
   argTypes: {
     onSelect: { control: false },
+    ariaLabel: { control: 'text' },
   },
   args: {
     etapes: [
@@ -35,4 +36,11 @@ export const DerniereEtape: Story = {
 
 export const EtapesCliquables: Story = {
   args: { active: 'verifier', onSelect: (id) => console.log('retour vers', id) },
+}
+
+export const AvecAriaLabelPersonnalise: Story = {
+  args: {
+    active: 'deposer',
+    ariaLabel: 'Étapes de pseudonymisation',
+  },
 }
