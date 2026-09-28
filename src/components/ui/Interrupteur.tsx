@@ -42,7 +42,7 @@ export function Interrupteur({
         inline-flex items-center gap-2 rounded-[8px] px-3 py-2
         text-[13px] font-medium transition-[background-color,border-color,color] duration-[150ms]
         focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-500
-        disabled:opacity-45 disabled:cursor-not-allowed select-none
+        cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed select-none
         min-h-[24px]
         ${actif
           ? 'bg-action-100 text-action-600'
