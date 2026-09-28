@@ -80,3 +80,19 @@ export const Tailles: Story = {
     </div>
   ),
 }
+
+export const IcôneSeule: Story = {
+  args: {
+    children: undefined,
+    ariaLabel: 'Télécharger le rapport',
+    icone: <TelechargerIcon />,
+    variante: 'primaire',
+  },
+}
+
+export const FocusVisible: Story = {
+  args: {
+    children: 'Bouton focusable',
+    'data-testid': 'bouton-focus',
+  },
+}
