@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useEffect, useRef, useId, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { FermerIcon } from '../icons'
 import { Bouton } from './Bouton'
@@ -9,15 +9,21 @@ interface ModalProps {
   onFermer: () => void
   children: ReactNode
   pied?: ReactNode
+  /** ID optionnel pour les attributs aria (unique dans la page). */
+  idModale?: string
 }
 
 /**
  * Modale Maskita — angles 20px, ombre diffuse, focus trap,
  * retour focus à l'élément déclencheur, Escape ferme.
  */
-export function Modal({ ouvert, titre, onFermer, children, pied }: ModalProps) {
+export function Modal({ ouvert, titre, onFermer, children, pied, idModale }: ModalProps) {
   const declencheurRef = useRef<HTMLElement | null>(null)
   const dialogRef = useRef<HTMLDivElement | null>(null)
+  const reactId = useId()
+  const idBase = idModale ?? reactId
+  const titreId = `modal-titre-${idBase}`
+  const contenuId = `modal-contenu-${idBase}`
 
   useEffect(() => {
     if (ouvert) {
@@ -85,7 +91,8 @@ export function Modal({ ouvert, titre, onFermer, children, pied }: ModalProps) {
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label={titre}
+        aria-labelledby={titreId}
+        aria-describedby={contenuId}
         tabIndex={-1}
         onKeyDown={(e) => {
           fermerAvecEscape(e)
@@ -94,7 +101,7 @@ export function Modal({ ouvert, titre, onFermer, children, pied }: ModalProps) {
         className="relative w-full max-w-[480px] rounded-[20px] border border-brume-200/70 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)] animate-fade-down focus:outline-none"
       >
         <header className="flex items-center justify-between px-7 pt-6">
-          <h2 className="text-lg font-semibold text-brume-900">{titre}</h2>
+          <h2 id={titreId} className="text-lg font-semibold text-brume-900">{titre}</h2>
           <button
             type="button"
             onClick={onFermer}
@@ -104,7 +111,7 @@ export function Modal({ ouvert, titre, onFermer, children, pied }: ModalProps) {
             <FermerIcon className="size-5" />
           </button>
         </header>
-        <div className="px-7 py-5">{children}</div>
+        <div id={contenuId} role="document" className="px-7 py-5">{children}</div>
         {pied && <footer className="flex justify-end gap-3 px-7 pb-7">{pied}</footer>}
       </div>
     </div>,

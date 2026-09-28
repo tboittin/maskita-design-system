@@ -71,6 +71,38 @@ export const Interactive: Story = {
   },
 }
 
+export const Accessibilite: Story = {
+  name: 'Accessibilité',
+  render: function AccessibiliteStory() {
+    const [ouvert, setOuvert] = useState(false)
+    return (
+      <div>
+        <Bouton onClick={() => setOuvert(true)}>Ouvrir la modale</Bouton>
+        <Modal
+          ouvert={ouvert}
+          titre="Retirer les valeurs du tag"
+          onFermer={() => setOuvert(false)}
+          pied={
+            <>
+              <Bouton variante="secondaire" onClick={() => setOuvert(false)}>
+                Annuler
+              </Bouton>
+              <Bouton variante="danger" onClick={() => setOuvert(false)}>
+                Retirer
+              </Bouton>
+            </>
+          }
+        >
+          <p className="text-sm leading-relaxed text-brume-500">
+            Les valeurs de [EMAIL] seront retirées du tag. Cette action est
+            réversible tant que vous n'avez pas téléchargé le fichier.
+          </p>
+        </Modal>
+      </div>
+    )
+  },
+}
+
 export const ConfirmationDestructiveStory: Story = {
   name: 'Confirmation destructive',
   render: function ConfirmationDestructiveDemo() {
