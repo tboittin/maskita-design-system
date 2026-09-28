@@ -111,7 +111,7 @@ export function Modal({ ouvert, titre, onFermer, children, pied, idModale }: Mod
             <FermerIcon className="size-5" />
           </button>
         </header>
-        <div id={contenuId} role="document" className="px-7 py-5">{children}</div>
+        <div id={contenuId} className="px-7 py-5">{children}</div>
         {pied && <footer className="flex justify-end gap-3 px-7 pb-7">{pied}</footer>}
       </div>
     </div>,
