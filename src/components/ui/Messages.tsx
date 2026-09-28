@@ -10,6 +10,8 @@ export function MessageSucces({ children, onFermer }: { children: ReactNode; onF
     <button
       type="button"
       onClick={onFermer}
+      role="status"
+      aria-live="polite"
       className="inline-flex items-center gap-2 rounded-[8px] bg-signal-succes-fond px-3 py-2 text-[13px] font-medium text-signal-succes animate-fade-in"
     >
       <ValiderIcon className="size-4" />
@@ -32,7 +34,10 @@ export function MessageErreur({ children }: { children: ReactNode }) {
 
 export function MessageInfo({ children }: { children: ReactNode }) {
   return (
-    <div className="inline-flex items-start gap-2.5 rounded-[14px] bg-signal-info-fond px-4 py-3 text-sm text-brume-900">
+    <div
+      role="status"
+      className="inline-flex items-start gap-2.5 rounded-[14px] bg-signal-info-fond px-4 py-3 text-sm text-brume-900"
+    >
       <InfoIcon className="mt-0.5 size-4 shrink-0 text-signal-info" />
       <div>{children}</div>
     </div>
