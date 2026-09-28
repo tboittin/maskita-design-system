@@ -1,6 +1,13 @@
+import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Interrupteur } from '../../components/ui/Interrupteur'
+import type { InterrupteurProps } from '../../components/ui/Interrupteur'
 import { VoileIcon } from '../../components/icons'
+
+function InterrupteurAvecEtat(props: InterrupteurProps) {
+  const [actif, setActif] = useState(props.actif)
+  return <Interrupteur {...props} actif={actif} onChange={setActif} />
+}
 
 const meta: Meta<typeof Interrupteur> = {
   title: 'UI/Interrupteur',
@@ -18,6 +25,7 @@ const meta: Meta<typeof Interrupteur> = {
     actif: false,
     children: 'Accessibilité renforcée',
   },
+  render: (args) => <InterrupteurAvecEtat {...args} />,
 }
 
 export default meta
