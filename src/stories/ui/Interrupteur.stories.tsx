@@ -54,10 +54,3 @@ export const Désactivé: Story = {
   },
 }
 
-export const SansLibellé: Story = {
-  args: {
-    children: undefined,
-    ariaLabel: 'Basculer le mode sombre',
-    actif: false,
-  },
-}
