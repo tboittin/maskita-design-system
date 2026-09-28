@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Interrupteur } from '../../components/ui/Interrupteur'
 import type { InterrupteurProps } from '../../components/ui/Interrupteur'
-import { VoileIcon } from '../../components/icons'
+import { FichierIcon } from '../../components/icons'
 
 function InterrupteurAvecEtat(props: InterrupteurProps) {
   const [actif, setActif] = useState(props.actif)
@@ -21,9 +21,9 @@ const meta: Meta<typeof Interrupteur> = {
     children: { control: 'text' },
   },
   args: {
-    ariaLabel: 'Activer le mode renforcé',
+    ariaLabel: 'Sélectionner le format d\'export',
     actif: false,
-    children: 'Accessibilité renforcée',
+    children: 'Format DOCX',
   },
   render: (args) => <InterrupteurAvecEtat {...args} />,
 }
@@ -42,15 +42,14 @@ export const Actif: Story = {
 export const AvecIcône: Story = {
   args: {
     actif: true,
-    icone: <VoileIcon />,
-    children: 'Mode protégé',
+    icone: <FichierIcon />,
+    children: 'Format PDF',
   },
 }
 
 export const Désactivé: Story = {
   args: {
     desactive: true,
-    children: 'Option indisponible',
+    children: 'DOCX indisponible',
   },
 }
-
