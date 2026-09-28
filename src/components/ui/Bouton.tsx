@@ -4,7 +4,7 @@ import { forwardRef } from 'react'
 export type VarianteBouton = 'primaire' | 'secondaire' | 'ghost' | 'danger'
 export type TailleBouton = 'sm' | 'md' | 'lg'
 
-export interface BoutonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type BoutonBaseProps = {
   variante?: VarianteBouton
   taille?: TailleBouton
   /** Icône à gauche (ou seule). */
@@ -13,8 +13,20 @@ export interface BoutonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   iconeDroite?: ReactNode
   /** Blocage métier : message visible sous/au survol si le bouton est désactivé. */
   raisonDesactive?: string
-  children?: ReactNode
-}
+} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>
+
+export type BoutonProps = BoutonBaseProps & (
+  | {
+      children: ReactNode
+      /** Nom accessible — optionnel quand children est présent. */
+      ariaLabel?: string
+    }
+  | {
+      children?: undefined
+      /** Nom accessible — obligatoire si children est absent (icône seule). */
+      ariaLabel: string
+    }
+)
 
 const base =
   'inline-flex items-center justify-center gap-2 rounded-[8px] font-medium ' +
@@ -57,19 +69,20 @@ const variantes: Record<VarianteBouton, string> = {
  */
 
 const tailles: Record<TailleBouton, string> = {
-  sm: 'px-4 py-[10px] text-[13px]',
-  md: 'px-5 py-[10px] text-sm',
-  lg: 'px-6 py-[10px] text-[15px]',
+  sm: 'min-h-[24px] px-4 py-[10px] text-[13px]',
+  md: 'min-h-[32px] px-5 py-[10px] text-sm',
+  lg: 'min-h-[40px] px-6 py-[10px] text-[15px]',
 }
 
 export const Bouton = forwardRef<HTMLButtonElement, BoutonProps>(function Bouton(
-  { variante = 'primaire', taille = 'md', icone, iconeDroite, raisonDesactive, className = '', children, ...props },
+  { variante = 'primaire', taille = 'md', icone, iconeDroite, raisonDesactive, ariaLabel, className = '', children, ...props },
   ref,
 ) {
   return (
     <button
       ref={ref}
       className={`${base} ${variantes[variante]} ${tailles[taille]} ${className}`}
+      aria-label={ariaLabel}
       aria-describedby={props.disabled && raisonDesactive ? 'raison-bouton' : undefined}
       {...props}
     >
