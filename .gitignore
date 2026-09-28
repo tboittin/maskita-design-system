@@ -16,6 +16,7 @@ khaleeno-maskita-design-system-*.tgz
 check-*.cjs
 shots-*.png
 lab-*
+test-results/
 
 # Logs
 *.log
