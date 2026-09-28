@@ -119,3 +119,44 @@
     }
   }
 }
+
+/* ── Mode accessibilité renforcée ──────────────────────────── */
+/* Activé par data-accessibilite="renforcee" sur un ancêtre.   */
+/* Le DS ne lit ni n'écrit jamais cet attribut.                */
+/* ============================================================ */
+
+@custom-media --reduced-motion (prefers-reduced-motion: reduce);
+
+[data-accessibilite="renforcee"] {
+  /* Typographie renforcée — WCAG 1.4.4, 1.4.12 */
+  --font-size-base: 125%;
+  --line-height-base: 1.5;
+
+  /* Contraste renforcé — WCAG 1.4.6 */
+  /* Couleurs texte plus sombres pour 7:1 sur fond clair */
+  --color-brume-700: #2d2926;
+  --color-brume-500: #4a4540;
+  --color-action-600: #4343c0;
+  --color-signal-succes: #2d6b2f;
+  --color-signal-erreur: #a8322a;
+  --color-signal-attention: #8c601e;
+  --color-signal-info: #385a96;
+
+  /* Focus renforcé — WCAG 2.4.13 */
+  --focus-ring-width: 3px;
+
+  /* Liens toujours soulignés */
+  a:not(.no-underline) {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Animations désactivées */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
