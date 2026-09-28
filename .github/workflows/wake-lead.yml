@@ -29,6 +29,7 @@ jobs:
           ISSUE_BODY: ${{ github.event.issue.body }}
           PR_NUM: ${{ github.event.pull_request.number }}
           PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_MERGED: ${{ github.event.pull_request.merged }}
           COMMENT_BODY: ${{ github.event.comment.body }}
           LABEL_NAME: ${{ github.event.label.name }}
           REVIEW_STATE: ${{ github.event.review.state }}
@@ -40,6 +41,13 @@ jobs:
           fi
           if echo "$ISSUE_BODY" | grep -q '/no-wakeup'; then
             echo "Contient /no-wakeup — ignore"
+            exit 0
+          fi
+
+          # Si PR mergée → message de nettoyage spécifique
+          if [ "$EVENT_NAME" = "pull_request" ] && [ "$EVENT_ACTION" = "closed" ] && [ "$PR_MERGED" = "true" ]; then
+            MSG="🔔 Nettoyage: PR #$PR_NUM ($PR_TITLE) mergée par @$ACTOR — supprimer branche + worktree"
+            herdr agent prompt wC:p1 "$MSG" || echo "⚠️ Echec du reveil"
             exit 0
           fi
 
