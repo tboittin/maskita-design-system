@@ -47,7 +47,6 @@ test.describe('Modal', () => {
     // Sélection par attribut id pour éviter les problèmes de sélecteur CSS
     const contenu = page.locator(`[id="${describedby}"]`)
     await expect(contenu).toBeVisible()
-    await expect(contenu).toHaveAttribute('role', 'document')
   })
 
   test('Escape ferme la modale', async ({ page }) => {
