@@ -18,6 +18,8 @@ export { TexteApercu, SurbrillanceTag } from './components/ui/TexteApercu'
 export { MessageSucces, MessageErreur, MessageInfo } from './components/ui/Messages'
 export { Interrupteur } from './components/ui/Interrupteur'
 export type { InterrupteurProps } from './components/ui/Interrupteur'
+export { Onglets, PanneauOnglet } from './components/ui/Onglets'
+export type { Onglet, OngletsProps } from './components/ui/Onglets'
 
 // Statuts
 export { statuts } from './lib/statuts'
